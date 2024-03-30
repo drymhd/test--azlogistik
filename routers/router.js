@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const summaryController = require('../controllers/summaryController');
 
 
 
@@ -15,8 +16,9 @@ const init = () => {
 
     
     // Gunakan router v1
-    app.use('/merk', merk);
-    app.use('/product', product);
+    app.use('/api/merks', merk);
+    app.use('/api/products', product);
+    app.get('/summaryProducts', summaryController.summary)
     
     // Port untuk server
     const port = 3000;

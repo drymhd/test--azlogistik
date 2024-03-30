@@ -1,18 +1,29 @@
 const client = require("./connection");
 
-client.query(`CREATE TABLE public.merks (
+client.query(`
+CREATE TABLE public.merks (
 	id serial NOT NULL,
 	"name" varchar NULL,
 	deskripsi varchar NULL,
 	CONSTRAINT merk_pk PRIMARY KEY (id)
-);`);
+);
 
-client.query(`CREATE TABLE public.products (
+CREATE TABLE public.products (
 	id serial NOT NULL,
 	"name" varchar NULL,
-	price varchar NULL,
-	stock varchar NULL,
+	price integer NULL,
+	stock integer NULL,
 	deskripsi varchar NULL,
-	merk_id integer NOT NULL
-);`);
+	merk_id INTEGER REFERENCES merks(id) ON DELETE RESTRICT,
+	CONSTRAINT product_pk PRIMARY KEY (id)
+);
+` , (err, res) => {
+  if (err) {
+	process.exit(1);
+  } else {
+	process.exit(1);
+  }
+});
+
+
 

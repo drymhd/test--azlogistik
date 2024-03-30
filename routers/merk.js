@@ -9,8 +9,10 @@ router.use((req, res, next) => {
   next();
 });
 
+router.get('/', merkController.getAll);
 router.get('/:id', merkController.show);
 router.post('/', merkController.create);
+router.post('/pagination', merkController.pagination);
 router.put('/:id', merkController.update);
 router.delete('/:id', merkController.destroy);
 

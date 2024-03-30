@@ -9,7 +9,9 @@ router.use((req, res, next) => {
   next();
 });
 
+router.get('/', productController.getAll);
 router.get('/:id', productController.show);
+router.post('/pagination', productController.pagination);
 router.post('/', productController.create);
 router.put('/:id', productController.update);
 router.delete('/:id', productController.destroy);

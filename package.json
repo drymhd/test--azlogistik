@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon main.js",
-    "migrate": "node ./db/migration.js"
+    "migrate": "node ./db/migration.js",
+    "query": "node ./db/query.js"
   },
   "author": "",
   "license": "ISC",

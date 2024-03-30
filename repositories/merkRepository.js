@@ -1,4 +1,25 @@
 const client = require("../db/connection");
+const Exception = require("../helpers/exception");
+
+const getAll = async () => {
+  const result = await client.query(`
+  SELECT 
+  m.*,
+  json_agg(
+    json_build_object(
+      'id', p.id,
+      'name', p.name,
+      'price', p.price,
+      'stock', p.stock,
+      'deskripsi', p.deskripsi
+    )
+  ) as products
+FROM merks m left join products p on m.id = p.merk_id
+GROUP BY m.id`
+);
+  return result.rows;
+};
+
 
 const show = async (id) => {
   try {
@@ -6,12 +27,15 @@ const show = async (id) => {
       id,
     ]);
     if (rows.length === 0) {
-      throw new Error("Merk tidak ditemukan");
+      throw new Exception("Merk not found", 404);
     }
 
     return rows[0];
   } catch (err) {
-    throw new Error(err);
+    if(err instanceof Exception) {
+      throw err;
+    }
+    throw new Exception(err, 500);
   }
 };
 
@@ -25,7 +49,7 @@ const create = async (body) => {
     );
     return rows[0];
   } catch (err) {
-    throw new Error(err);
+    throw new Exception(err, 500);
   }
 };
 
@@ -43,7 +67,7 @@ const update = async (merk, body) => {
     );
     return rows[0];
   } catch (err) {
-    throw new Error(err);
+    throw new Exception(err, 500);
   }
 };
 
@@ -56,7 +80,19 @@ const destroy = async (merk) => {
     );
     return rows[0];
   } catch (err) {
-    throw new Error(err);
+    throw new Exception(err, 500);
+  }
+};
+
+
+const pagination = async (query) => {
+  try {
+    const { rows } = await client.query(
+      `SELECT * FROM merks WHERE name LIKE '%${query.search}%' LIMIT ${query.limit} OFFSET ${query.offset * query.limit}`
+    );
+    return rows;
+  } catch (err) {
+    throw err;
   }
 };
 
@@ -65,5 +101,8 @@ module.exports = {
   create,
   get,
   update,
-  destroy
+  destroy,
+  getAll,
+  pagination
+  
 }
