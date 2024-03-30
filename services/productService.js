@@ -52,8 +52,8 @@ const update = async (merk, body) => {
     const rules = {
       name: "required|string|min:3",
       deskripsi: "required",
-      stock: "required",
-      price: "required|numeric",
+      stock: "required|numeric|min:0",
+      price: "required|numeric|min:0",
       merk_id: "required",
     };
 

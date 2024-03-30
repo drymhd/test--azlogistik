@@ -88,7 +88,7 @@ const destroy = async (merk) => {
 const pagination = async (query) => {
   try {
     const { rows } = await client.query(
-      `SELECT * FROM merks WHERE name LIKE '%${query.search}%' LIMIT ${query.limit} OFFSET ${query.offset * query.limit}`
+      `SELECT * FROM merks WHERE name LIKE '%${query.search}%' OR deskripsi LIKE '%${query.search}%' LIMIT ${query.limit} OFFSET ${query.offset * query.limit}`
     );
     return rows;
   } catch (err) {
