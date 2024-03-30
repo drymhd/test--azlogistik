@@ -16,6 +16,7 @@ Install my-project with npm
 
 ```bash
   npm install
+  setup database connection in ./db/connection
 ```
 
  ## Migration
